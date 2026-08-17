@@ -1,0 +1,238 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-neon: var(--neon);
+  --color-moss: var(--moss);
+  --color-ink: var(--ink);
+  --font-display: "Oswald", "Arial Narrow", sans-serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.14 0.018 160);
+  --foreground: oklch(0.96 0.008 120);
+  --card: oklch(0.18 0.021 162);
+  --card-foreground: oklch(0.96 0.008 120);
+  --popover: oklch(0.17 0.02 162);
+  --popover-foreground: oklch(0.96 0.008 120);
+  --primary: oklch(0.62 0.15 158);
+  --primary-foreground: oklch(0.13 0.02 160);
+  --secondary: oklch(0.24 0.03 158);
+  --secondary-foreground: oklch(0.94 0.01 120);
+  --muted: oklch(0.22 0.024 160);
+  --muted-foreground: oklch(0.7 0.02 150);
+  --accent: oklch(0.32 0.055 155);
+  --accent-foreground: oklch(0.96 0.008 120);
+  --destructive: oklch(0.55 0.19 25);
+  --destructive-foreground: oklch(0.97 0 0);
+  --border: oklch(0.3 0.03 158 / 55%);
+  --input: oklch(0.3 0.03 158 / 60%);
+  --ring: oklch(0.72 0.18 152);
+  /* verde neon pontual */
+  --neon: oklch(0.82 0.21 148);
+  /* verde militar */
+  --moss: oklch(0.42 0.06 140);
+  --ink: oklch(0.1 0.012 160);
+
+  --gradient-veil: linear-gradient(
+    to top,
+    var(--ink) 4%,
+    color-mix(in oklab, var(--ink) 78%, transparent) 38%,
+    transparent 78%
+  );
+  --gradient-edge: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--neon) 55%, transparent),
+    transparent 55%
+  );
+  --shadow-lift: 0 24px 60px -30px oklch(0 0 0 / 0.9);
+  --glow-soft: 0 0 40px -8px color-mix(in oklab, var(--neon) 35%, transparent);
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--ink);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--neon) 40%, transparent);
+    color: var(--foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--neon);
+    outline-offset: 3px;
+  }
+}
+
+/* ---------- utilities ---------- */
+
+@utility surface {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--card) 90%, transparent),
+      color-mix(in oklab, var(--ink) 92%, transparent)
+    );
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lift);
+}
+
+@utility grain {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.32;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+}
+
+@utility veil {
+  background-image: var(--gradient-veil);
+}
+
+@utility neon-line {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--neon) 70%, transparent),
+    transparent
+  );
+}
+
+@utility eyebrow {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.6875rem;
+  color: color-mix(in oklab, var(--neon) 80%, white);
+}
+
+@utility text-glow {
+  text-shadow: 0 0 26px color-mix(in oklab, var(--neon) 45%, transparent);
+}
+
+@utility card-hover {
+  transition:
+    transform 0.45s var(--ease-brand),
+    border-color 0.45s var(--ease-brand),
+    box-shadow 0.45s var(--ease-brand);
+  &:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--neon) 45%, transparent);
+    box-shadow: var(--glow-soft);
+  }
+}
+
+/* ---------- motion ---------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(220%);
+  }
+}
+
+@utility rise-in {
+  opacity: 0;
+  animation: rise 0.85s var(--ease-brand) forwards;
+}
+
+@utility breathe {
+  animation: breathe 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .rise-in {
+    opacity: 1;
+  }
+}
